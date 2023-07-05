@@ -3,7 +3,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
+  console.log("1");
   // CHECK EXISTING USER
+  console.log("Reach register");
   const q = "SELECT * FROM users WHERE email = ? OR username = ?";
   db.query(q, [req.body.email, req.body.username], (err, data) => {
     if (err) {
@@ -12,17 +14,19 @@ export const register = (req, res) => {
     if (data.length) {
       return res.status(409).json("User already exists!");
     }
-
+    console.log("2");
     //ENCRYPT user password by bcyrptjs module
     //Hash the password and create user (read from bcryptjs doc)
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const q = "INSERT INTO users(`username`, `email`, `password`) VALUES (?)";
+    const q = "INSERT INTO users(`username`, `email`, `password`) VALUES (? ? ?)";
     const values = [req.body.username, req.body.email, hash];
-
+    console.log("3");
     db.query(q, [values], (err, data) => {
-      if (err) return json(err);
+      console.log("4");
+      if (err) return res.status(403).json(err);
+      console.log("Reach here or not");
       return res.status(200).json("User has been created.");
     });
   });

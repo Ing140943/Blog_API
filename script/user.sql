@@ -3,5 +3,5 @@ CREATE TABLE users (
   username varchar(255) NOT NULL,
   email varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
-  img varchar(500) DEFAULT NULL
+  img varchar(700) DEFAULT NULL
 );
