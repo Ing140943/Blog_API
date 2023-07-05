@@ -3,10 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
-  console.log("1");
   // CHECK EXISTING USER
-  console.log("Reach register");
-  const q = "SELECT * FROM users WHERE email = ? OR username = ?";
+  const q = `SELECT * FROM users WHERE email = $1 OR username = $2`;
   db.query(q, [req.body.email, req.body.username], (err, data) => {
     if (err) {
       return res.json(err);
@@ -14,17 +12,14 @@ export const register = (req, res) => {
     if (data.length) {
       return res.status(409).json("User already exists!");
     }
-    console.log("2");
     //ENCRYPT user password by bcyrptjs module
     //Hash the password and create user (read from bcryptjs doc)
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const q = "INSERT INTO users(`username`, `email`, `password`) VALUES (? ? ?)";
+    const q = `INSERT INTO users("username", "email", "password") VALUES ($1, $2, $3)`;
     const values = [req.body.username, req.body.email, hash];
-    console.log("3");
     db.query(q, [values], (err, data) => {
-      console.log("4");
       if (err) return res.status(403).json(err);
       console.log("Reach here or not");
       return res.status(200).json("User has been created.");
@@ -35,7 +30,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   //CHECK USER
 
-  const q = "SELECT * FROM users WHERE username = ?";
+  const q = `SELECT * FROM users WHERE username = $1`;
   db.query(q, [req.body.username], (err, data) => {
     if (err) return json(err);
     // If no any users
@@ -67,7 +62,7 @@ export const login = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("axess_token", {
+  res.clearCookie("acess_token", {
     sameSite: "none",
     secure: true
   }).status(200).json("User has been logged out.")
