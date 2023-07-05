@@ -49,7 +49,7 @@ export const login = (req, res) => {
 
     const token = jwt.sign(
       { id: data[0].id },
-      "jwtkeythatweshouldstore inENVfile"
+      process.env.JWT_KEY
     );
     const { password, ...other } = data[0];
 
