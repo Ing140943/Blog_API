@@ -17,9 +17,9 @@ export const register = (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const insert_q = `INSERT INTO users("username", "email", "password") VALUES ($1, $2, $3)`;
+    const insert_q = `INSERT INTO users("username", "email", "password") VALUES ($1, $2, $3)`; 
     const values = [req.body.username, req.body.email, hash];
-    db.query(insert_q, [values], (err, data) => {
+    db.query(insert_q, values, (err, data) => {
       if (err) return res.status(403).json(err);
       console.log("Reach here or not");
       return res.status(200).json("User has been created.");
