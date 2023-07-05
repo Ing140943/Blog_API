@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 app.use(cors({
   origin: "https://anime-setthant-blog-d51535ba59d0.herokuapp.com",
-}))
+}));
 // For uploading in the machine
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
