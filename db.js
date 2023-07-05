@@ -13,7 +13,7 @@ const { Pool } = pkg;
 // For Production
 
 export const db = new Pool ({
-    connectionString: process.env.DBConfigLink,
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
