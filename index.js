@@ -11,8 +11,8 @@ const app = express()
 dotenv.config()
 
 app.use(cors({
+    credentials: true,
   origin: ["https://anime-setthant-blog-d51535ba59d0.herokuapp.com"],
-  credentials: true
 }));
 app.use(express.json())
 app.use(cookieParser())
