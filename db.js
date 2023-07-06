@@ -1,11 +1,14 @@
 import pkg from 'pg';
-const { Pool } = pkg;
+const { Client } = pkg;
 
-const db = new Pool({
+
+const db = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
+
+db.connect();
 
 export default db;

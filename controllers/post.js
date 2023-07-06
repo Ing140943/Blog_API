@@ -95,15 +95,19 @@
 import db from "../db.js";
 import jwt from "jsonwebtoken";
 
-export const getPosts = (req, res) => {
-  const q = req.query.cat
-    ? 'SELECT * FROM posts WHERE cat = $1'
-    : 'SELECT * FROM posts';
+export const getPosts = async (req, res) => {
+  try {
+    const q = req.query.cat
+      ? 'SELECT * FROM posts WHERE cat = $1'
+      : 'SELECT * FROM posts';
 
-  db.query(q, [req.query.cat], (err, data) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).json(data);
-  });
+    const data = await db.query(q, [req.query.cat]);
+
+    return res.status(200).json(data.rows);
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    return res.status(500).json("Internal server error");
+  }
 };
 
 export const getPost = async (req, res) => {

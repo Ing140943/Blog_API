@@ -82,12 +82,12 @@ export const register = async (req, res) => {
       return res.status(409).json("User already exists!");
     }
 
-    //ENCRYPT user password by bcyrptjs module
-    //Hash the password and create user (read from bcryptjs doc)
+    // ENCRYPT user password by bcryptjs module
+    // Hash the password and create user (read from bcryptjs doc)
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
-    const insert_q = `INSERT INTO users("username", "email", "password") VALUES ($1, $2, $3)`; 
+    const insert_q = `INSERT INTO users("username", "email", "password") VALUES ($1, $2, $3)`;
     const values = [req.body.username, req.body.email, hash];
     const insertResult = await db.query(insert_q, values);
 
@@ -100,7 +100,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    //CHECK USER
+    // CHECK USER
     const select_q = `SELECT * FROM users WHERE username = $1`;
     const selectResult = await db.query(select_q, [req.body.username]);
 
@@ -110,7 +110,7 @@ export const login = async (req, res) => {
 
     const user = selectResult.rows[0];
 
-    //Check password
+    // Check password
     const isPasswordCorrect = bcrypt.compareSync(req.body.password, user.password);
 
     if (!isPasswordCorrect) {
@@ -135,6 +135,6 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie("access_token", {
     sameSite: "none",
-    secure: true
+    secure: true,
   }).status(200).json("User has been logged out.");
 };
