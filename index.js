@@ -10,14 +10,13 @@ import cors from "cors";
 const app = express()
 dotenv.config()
 
-app.use(express.json())
-app.use(cookieParser())
-
-
 app.use(cors({
   origin: ["https://anime-setthant-blog-d51535ba59d0.herokuapp.com"],
   credentials: true
 }));
+app.use(express.json())
+app.use(cookieParser())
+
 // For uploading in the machine
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
