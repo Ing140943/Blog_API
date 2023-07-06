@@ -1,20 +1,11 @@
-import mysql from "mysql"
-import pkg from "pg";
+import pkg from 'pg';
 const { Pool } = pkg;
 
-// For localhost
-// export const db = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "201194ing",
-//     database: "blog",
-// })  
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-// For Production
-
-export const db = new Pool ({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-})
+export default db;
