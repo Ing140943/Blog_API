@@ -52,7 +52,10 @@ export const login = async (req, res) => {
 
     res
       .cookie("access_token", token, {
-        httpOnly: true,
+        sameSite : "none",
+        secure: true,
+        domain: "https://anime-setthant-blog-d51535ba59d0.herokuapp.com/",
+        httpOnly: true
       })
       .status(200)
       .json(other);
